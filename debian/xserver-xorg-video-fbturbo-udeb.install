@@ -1,1 +1,1 @@
-usr/lib/xorg/modules/drivers/*.so
+debian/tmp/udeb/usr/lib/* usr/lib/
