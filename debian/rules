@@ -1,0 +1,9 @@
+#!/usr/bin/make -f
+
+# That's a plugin, use appropriate warning level:
+override_dh_shlibdeps:
+	dh_shlibdeps -- --warnings=6
+
+%:
+	dh $@ --with autoreconf,xsf
+
