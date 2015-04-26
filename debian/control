@@ -15,9 +15,7 @@ Vcs-Browser: https://github.com/mati75/xserver-xorg-video-fbturbo.git
 Package: xserver-xorg-video-fbturbo
 Architecture: any
 Depends:
- ${shlibs:Depends},
- ${misc:Depends},
- ${xviddriver:Depends},
+ ${shlibs:Depends}, ${misc:Depends}, ${xviddriver:Depends},
 Provides:
  ${xviddriver:Provides}
 Description: X.Org X server -- fbturbo display driver
@@ -27,3 +25,11 @@ Description: X.Org X server -- fbturbo display driver
  More information can be found at:
  <https://github.com/ssvb/xf86-video-fbturbo>
 
+Package: xserver-xorg-video-fbturbo-udeb
+XC-Package-Type: udeb
+Section: debian-installer
+Architecture: armhf
+Depends: ${shlibs:Depends}, ${misc:Depends}, ${xviddriver:Depends}
+Provides: ${xviddriver:Provides}
+Description: X.Org X server -- fbturbo display driver
+ This is a udeb, or a microdeb, for the debian-installer.
