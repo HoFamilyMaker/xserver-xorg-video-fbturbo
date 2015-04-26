@@ -2,4 +2,4 @@ xserver-xorg-video-fbturbo (0.5.1~git20150305-1) UNRELEASED; urgency=low
 
   * Initial release. (Closes: #760025)
 
- -- Sébastien Noel <sebastien@twolife.be>  Fri, 27 Dec 2013 11:34:27 +0100
+ -- Mateusz Łukasik <mati75@linuxmint.pl>  Sun, 26 Apr 2015 13:36:49 +0200
