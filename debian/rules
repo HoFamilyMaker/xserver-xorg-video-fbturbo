@@ -1,39 +1,40 @@
 #!/usr/bin/make -f
 
-PACKAGE = xserver-xorg-video-fbturbo
-OOT     = --builddirectory=build
+export CPPFLAGS := $(shell dpkg-buildflags --get CPPFLAGS)
+export CFLAGS := $(shell dpkg-buildflags --get CFLAGS)
+export LDFLAGS := $(shell dpkg-buildflags --get LDFLAGS)
 
-# Clean:
-override_dh_auto_clean:
-	dh_auto_clean
-	rm -rf build-main/ debian/tmp-main/
-	rm -rf build-udeb/ debian/tmp-udeb/
+FLAVORS = main udeb
 
-# Configuration, with or without xv:
-override_dh_auto_configure:
-	dh_auto_configure $(OOT)-main/ -- --enable-xv
-	dh_auto_configure $(OOT)-udeb/ -- --disable-xv
+CONFIGURE_FLAGS_main = --enable-xv
+CONFIGURE_FLAGS_udeb = --disable-xv
 
-# Build:
-override_dh_auto_build:
-	$(MAKE) -C build-main/
-	$(MAKE) -C build-udeb/
+%:
+	dh $@ --with quilt,autoreconf,xsf
 
-# Install:
-override_dh_auto_install:
-	$(MAKE) -C build-main/ install DESTDIR=$(CURDIR)/debian/tmp-main
-	$(MAKE) -C build-udeb/ install DESTDIR=$(CURDIR)/debian/tmp-udeb
+override_dh_auto_configure: $(FLAVORS:%=doconfigure-%)
 
-# Kill *.la files, and forget no-one:
+doconfigure-%:
+	dh_auto_configure --builddirectory=debian/build-$* -- $(CONFIGURE_FLAGS_$*)
+
+override_dh_auto_build: $(FLAVORS:%=dobuild-%)
+
+dobuild-%:
+	dh_auto_build --builddirectory=build/$*
+
+override_dh_auto_install: $(FLAVORS:%=doinstall-%)
+
+doinstall-%:
+	dh_auto_install --builddirectory=debian/build-$* --destdir=debian/tmp/$*
+
 override_dh_install:
-	find debian/tmp-* -name '*.la' -delete
-	dh_install -p$(PACKAGE)      --sourcedir=debian/tmp-main --fail-missing
-	dh_install -p$(PACKAGE)-udeb --sourcedir=debian/tmp-udeb --fail-missing
+	find debian/tmp -name \*.la -delete
+	dh_install --fail-missing
 
 # That's a plugin, use appropriate warning level:
 override_dh_shlibdeps:
 	dh_shlibdeps -- --warnings=6
 
-%:
-	dh $@ --with autoreconf,xsf
-
+override_dh_auto_clean:
+	dh_auto_clean
+	rm -rf debian/build-main debian/build-udeb
