@@ -8,6 +8,7 @@ Build-Depends: debhelper (>= 9), dh-autoreconf,
  x11proto-render-dev,  x11proto-video-dev, x11proto-xf86dri-dev,
  xutils-dev (>= 1:7.5+1)
 Standards-Version: 3.9.6
+Homepage: https://github.com/ssvb/xf86-video-fbturbo
 Vcs-Git: git://github.com/mati75/xserver-xorg-video-fbturbo.git
 Vcs-Browser: https://github.com/mati75/xserver-xorg-video-fbturbo.git
 
@@ -23,6 +24,6 @@ Description: X.Org X server -- fbturbo display driver
  This package provides the fbturbo driver which provides accelerated functions
  on the Raspberry Pi and similar.
  .
- More informations can be found at:
+ More information can be found at:
  <https://github.com/ssvb/xf86-video-fbturbo>
 
